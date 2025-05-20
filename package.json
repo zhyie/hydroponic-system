@@ -1,0 +1,20 @@
+{
+  "name": "hydroeg",
+  "version": "1.0.0",
+  "description": "An Arduino-based hydroponic system that monitors parameters and regulates these parameter to their ideal range.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhyie/hydroeg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhyie/hydroeg/issues"
+  },
+  "homepage": "https://github.com/zhyie/hydroeg#readme"
+}
