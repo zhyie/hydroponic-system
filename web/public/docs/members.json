@@ -1,26 +1,26 @@
 [
   {
-    "name": "Name",
+    "name": "Cherrie Mae A. Abejero",
     "email": "email@ortigas-cainta.sti.edu.ph",
-    "photo": "photo/photo.jpg",
-    "resume": "resume/resume.pdf"
+    "photo": "docs/photo/abejero.jpg",
+    "vitae": "docs/vitae/abejero.pdf"
   },
   {
-    "name": "Name",
+    "name": "Janel Kyle E. Danao",
     "email": "email@ortigas-cainta.sti.edu.ph",
-    "photo": "photo/photo.jpg",
-    "resume": "resume/resume.pdf"
+    "photo": "docs/photo/danao.jpg",
+    "vitae": "docs/vitae/danao.pdf"
   },
   {
-    "name": "Name",
+    "name": "Joanna Gwyn Posadas",
     "email": "email@ortigas-cainta.sti.edu.ph",
-    "photo": "photo/photo.jpg",
-    "resume": "resume/resume.pdf"
+    "photo": "docs/photo/posadas.jpg",
+    "vitae": "docs/vitae/posadas.pdf"
   },
   {
-    "name": "Name",
+    "name": "Rosela Mari S. Dela Cruz",
     "email": "email@ortigas-cainta.sti.edu.ph",
-    "photo": "photo/photo.jpg",
-    "resume": "resume/resume.pdf"
+    "photo": "docs/photo/delacruz.jpg",
+    "vitae": "docs/vitae/delacruz.pdf"
   }
 ]
