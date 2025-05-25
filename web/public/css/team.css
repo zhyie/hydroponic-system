@@ -127,11 +127,10 @@ body {
     }
 }
 
-@media (max-width: 300px) {
-
-    .member-photo img {
-        width: 120px;
-        height: 120px;
+@media (max-width: 400px) {
+    .member-info {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 
     .page-title {
@@ -139,10 +138,10 @@ body {
     }
 
     .member-details h2 {
-    font-size: 18px;
-}
+        font-size: 18px;
+    }
 
-.member-details p, .member-details a {
-    font-size: 12px;
-}
+    .member-details p, .member-details a {
+        font-size: 12px;
+    }
 }
