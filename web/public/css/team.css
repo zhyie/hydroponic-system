@@ -126,3 +126,23 @@ body {
         font-size: 50px;
     }
 }
+
+@media (max-width: 300px) {
+
+    .member-photo img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .member-details h2 {
+    font-size: 18px;
+}
+
+.member-details p, .member-details a {
+    font-size: 12px;
+}
+}

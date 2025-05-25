@@ -22,7 +22,7 @@ body {
     justify-content: space-between;
     align-items: center;
     vertical-align: middle;
-    border: 1px solid red;
+    user-select: none;
 }
 
 .navbar img {
@@ -31,7 +31,7 @@ body {
 }
 
 .navbar a {
-    padding: 10px 20px 10px 20px;
+    margin: 0px 20px 0px 20px;
     color: white;
     text-decoration: none;
 }
@@ -40,3 +40,52 @@ body {
     text-decoration: underline;
 }
 
+div {
+    /* border: 1px solid red; */
+}
+
+.page-title {
+    font-size: 48px;
+    padding: 50px;
+
+
+    fill: #f4f4f4;
+}
+
+.hydroponics, .overview, .game, #system, #gallery, #misc {
+    background-color: #f4f4f4;
+    padding: 40px 20px;
+    
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+p {
+    font-size: 24px;
+}
+
+.hydroponics {
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+}
+
+.hydro-img {
+    width: 30vw;
+    height: 50vh;
+
+    border: 1px solid green;
+}
+
+.hydro-img, .hydro-container {
+    padding: 20px;
+}
+
+.hydro-img img {
+    width: 30vw;
+    height: 50vh;
+}
