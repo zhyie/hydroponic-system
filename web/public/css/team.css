@@ -129,19 +129,19 @@ body {
 
 @media (max-width: 400px) {
     .member-info {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
     }
 
     .page-title {
-        font-size: 20px;
+        font-size: 32px;
     }
 
     .member-details h2 {
-        font-size: 18px;
+        font-size: 24px;
     }
 
     .member-details p, .member-details a {
-        font-size: 12px;
+        font-size: 14px;
     }
 }

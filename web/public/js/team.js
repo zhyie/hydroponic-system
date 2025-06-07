@@ -18,7 +18,7 @@ async function loadMembers() {
         <div class="member-details">
             <h2>${member.name}</h2>
             <p>${member.email}</p>
-            <a href="${member.resume}" target="_blank" rel="noopener">Click to view resume</a>
+            <a href="${member.vitae}" target="_blank">View vitae</a>
         </div>
         `;
 

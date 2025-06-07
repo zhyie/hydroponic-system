@@ -69,6 +69,11 @@ p {
     font-size: 24px;
 }
 
+.prototype-title img {
+    width: 50%;
+    height: 100vh;
+}
+
 .hydroponics {
     border-top-left-radius: 100px;
     border-top-right-radius: 100px;
@@ -88,4 +93,8 @@ p {
 .hydro-img img {
     width: 30vw;
     height: 50vh;
+}
+
+@media (max-width: 400px) {
+
 }

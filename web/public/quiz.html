@@ -1,25 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hydroponics & Lettuce Quiz Game</title>
-    <link rel="shortcut icon" href="docs/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/quiz.css">
-</head>
-    
-<body>
-    <div class="container" role="main" aria-live="polite">
-        <h1>Hydroponics & Lettuce Quiz</h1>
-        <div id="quiz-container">
-            <div class="question" id="question-text"></div>
-            <ul class="choices" id="choices-list"></ul>
-            <div class="feedback" id="feedback"></div>
-            <button id="next-btn" disabled>Next</button>
-            <button id="restart-btn" style="display:none;">Restart Quiz</button>
-        </div>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Greeny Facts - Quiz Game</title>
+        <style>
+            body {
+                background: linear-gradient(135deg, #a8e063, #56ab2f);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                color: #1f3700;
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            h1 {
+                margin: 40px auto 20px;
+                font-size: 3rem;
+                font-weight: 900;
+                text-shadow: 2px 2px 4px #385a00;
+                text-align: center;
+            }
+            /* Common container */
+            .container {
+                background: #d5f7b7;
+                border-radius: 20px;
+                box-shadow: 4px 4px 10px #2a5a0c;
+                max-width: 600px;
+                width: 90%;
+                padding: 25px 30px;
+                margin: 0 auto 40px;
+                text-align: center;
+            }
+            /* Category selection */
+            #category-selection {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+            button.category-btn {
+                background-color: #4caf50;
+                border: none;
+                padding: 15px 30px;
+                font-size: 1.25rem;
+                color: white;
+                border-radius: 10px;
+                cursor: pointer;
+                box-shadow: 0 5px #2e7031;
+                transition: background-color 0.3s ease;
+                min-width: 140px;
+            }
+            button.category-btn:hover {
+                background-color: #367c27;
+            }
+            /* Question area */
+            #question-section {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+            }
+            #question-image {
+                max-width: 100%;
+                max-height: 280px;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                border: 2px solid #3a5a0b;
+                object-fit: contain;
+            }
+            #question-text {
+                font-size: 1.6rem;
+                font-weight: 700;
+                margin-bottom: 20px;
+            }
+            #choices-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+                max-width: 400px;
+            }
+            button.choice-btn {
+                background-color: #4caf50;
+                border: none;
+                padding: 12px 20px;
+                font-size: 1.2rem;
+                color: white;
+                border-radius: 10px;
+                cursor: pointer;
+                box-shadow: 0 4px #2e7031;
+                transition: background-color 0.3s ease;
+                width: 100%;
+            }
+            button.choice-btn:hover:not(:disabled) {
+                background-color: #367c27;
+            }
+            button.choice-btn:disabled {
+                cursor: default;
+                background-color: #9fbc7a;
+                box-shadow: none;
+            }
+            /* Result area */
+            #result-section {
+                display: none;
+            }
+            #result-message {
+                font-size: 1.8rem;
+                font-weight: 800;
+                margin-bottom: 30px;
+                text-shadow: 1px 1px 3px #7a1414;
+                min-height: 2.5em;
+            }
+            #result-message.correct {
+                color: #155724;
+                text-shadow: 1px 1px 3px #a6d785;
+            }
+            #result-message.incorrect {
+                color: #7a1414;
+                text-shadow: 1px 1px 3px #e19999;
+            }
+            button#restart-btn {
+                background-color: #70b22e;
+                border: none;
+                padding: 14px 30px;
+                font-size: 1.3rem;
+                color: white;
+                border-radius: 10px;
+                cursor: pointer;
+                box-shadow: 0 4px #4a791d;
+                transition: background-color 0.3s ease;
+                min-width: 140px;
+            }
+            button#restart-btn:hover {
+                background-color: #4e7120;
+            }
+            @media(max-width: 480px) {
+                h1 {
+                font-size: 2.4rem;
+                }
+                button.category-btn, button.choice-btn, button#restart-btn {
+                font-size: 1rem;
+                padding: 10px 20px;
+                min-width: 110px;
+                }
+                #choices-container {
+                max-width: 100%;
+                }
+            }
+        </style>
+    </head>
 
-    <script src="js/quiz.js"></script>
-</body>
+    <body>
+        <h1>Greeny Facts</h1>
+        <div class="container" id="category-selection">
+            <button class="category-btn" data-category="hydroponics">Hydroponics</button>
+            <button class="category-btn" data-category="lettuce">Lettuce</button>
+        </div>
+        <div class="container" id="question-section" >
+            <img id="question-image" src="" alt="Question Image" style="display:none;" />
+            <div id="question-text"></div>
+            <div id="choices-container"></div>
+        </div>
+        <div class="container" id="result-section">
+            <div id="result-message"></div>
+            <button id="restart-btn">Start Again</button>
+        </div>
+
+        <script>
+            const categories = {
+                hydroponics: [
+                    {
+                        question: "What is hydroponics?",
+                        choices: ["Growing plants in soil", "Growing plants in water", "Growing plants in sand", "Growing plants in air"],
+                        answer: "Growing plants in water",
+                        image: null
+                    },
+                    {
+                        question: "Which nutrient is essential for plant growth in hydroponics?",
+                        choices: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+                        answer: "Nitrogen",
+                        image: null
+                    },
+                    {
+                        question: "What is the main advantage of hydroponics?",
+                        choices: ["Requires more water", "Faster plant growth", "Needs more space", "More pests"],
+                        answer: "Faster plant growth",
+                        image: null
+                    },
+                    {
+                        question: "Which of these is a common hydroponic system?",
+                        choices: ["Wick system", "Soil system", "Potting system", "Traditional farming"],
+                        answer: "Wick system",
+                        image: null
+                    },
+                    {
+                        question: "What do plants need to grow in hydroponics?",
+                        choices: ["Soil", "Water and nutrients", "Air and water ", "Sunlight only"],
+                        answer: "Water and nutrients",
+                        image: null
+                    },
+                    {
+                        question: "Which plant is commonly grown in hydroponics?",
+                        choices: ["Spinach", "Lettuce", "Tomatoes", "Grapes"],
+                        answer: "Lettuce",
+                        image: null
+                    },
+                    {
+                        question: "What is the best pH level for hydroponic solutions?",
+                        choices: ["4.0 to 5.0", "5.5 to 6.5", "7.0 to 8.0", "9.0 to 10.0"],
+                        answer: "5.5 to 6.5",
+                        image: null
+                    },
+                    {
+                        question: "What is the main purpose of a nutrient solution?",
+                        choices: ["To provide water", "To provide nutrients", "To provide light", "To provide air"],
+                        answer: "To provide nutrients",
+                        image: null
+                    },
+                    {
+                        question: "Which of these is NOT a hydroponic method?",
+                        choices: ["Deep Water Culture", "Aeroponics", "Soil-based farming", "Nutrient Film Technique"],
+                        answer: "Soil-based farming",
+                        image: null
+                    },
+                    {
+                        question: "What is a common pest in hydroponic systems?",
+                        choices: ["Aphids", "Caterpillars", "Snails", "Spider"],
+                        answer: "Aphids",
+                        image: null
+                    },
+                    {
+                        question: "What is the role of light in hydroponics?",
+                        choices: ["To keep plants warm", "To help plants grow", "To provide nutrients", "To attract pests"],
+                        answer: "To help plants grow",
+                        image: null
+                    },
+                    {
+                        question: "Which of these is a benefit of hydroponics?",
+                        choices: ["Less water usage", "More soil erosion", "More pests", "Slower growth"],
+                        answer: "Less water usage",
+                        image: null
+                    },
+                    {
+                        question: "What is the main component of hydroponic nutrient solutions?",
+                        choices: ["Water", "Soil", "Air", "Light"],
+                        answer: "Water",
+                        image: null
+                    },
+                    {
+                        question: "Which of these is a common hydroponic crop?",
+                        choices: ["Tomatoes", "Potatoes", "Carrots", "Cabbage"],
+                        answer: "Tomatoes",
+                        image: null
+                    },
+                    {
+                        question: "What is the main challenge of hydroponics?",
+                        choices: ["Requires a lot of space", "Requires constant monitoring", "No need for water", "No need for light"],
+                        answer: "Requires constant monitoring",
+                        image: null
+                    },
+                    {
+                        question: "What is the best temperature for hydroponic plants?",
+                        choices: ["10-15°C", "18-26°C","22-29°C", "30-35°C"],
+                        answer: "20-25°C",
+                        image: null
+                    }
+                ],
+                lettuce: [
+                {
+                    question: "What is the name of this variety of lettuce?",
+                    choices: ["Butterhead", "Romaine", "Iceberg", "Leaf"],
+                    answer: "Butterhead",
+                    image: "https://futurefresh.ph/cdn/shop/products/butterhead-lettuce-board-closeup_800x.jpg?v=1662972219"
+                },
+                {
+                    question: "Which lettuce variety is known for its crisp texture?",
+                    choices: ["Iceberg", "Butterhead", "Romaine", "Leaf"],
+                    answer: "Iceberg",
+                    image: "https://media.newyorker.com/photos/5b6b08d3a676470b4ea9b91f/16:9/w_2465,h_1386,c_limit/Rosner-Lettuce.jpg"
+                },
+                {
+                    question: "How long does it typically take for lettuce to grow from seed to harvest in a hydroponic system? A. 2-3 weeks?",
+                    choices: ["3-4 weeks", "4-6 weeks", "7-8 weeks", "8-9 weeks"],
+                    answer: "4-6 weeks",
+                    image: null
+                },
+                {
+                    question: "What is the primary benefit of growing lettuce hydroponically?",
+                    choices: ["Requires more space", "More pests", "Faster growth rates", "Higher soil quality"],
+                    answer: "Faster growth rates",
+                    image: null
+                },
+                {
+                    question: "What color is typically associated with Red Leaf lettuce?",
+                    choices: ["Red and green", "Pure green", "Red and yellow", "Red and Brown"],
+                    answer: "Red and green",
+                    image: null
+                },
+                {
+                    question: "Which hydroponic system is commonly used for growing lettuce?",
+                    choices: ["Deep Water Culture", "Ebb and Flow", "Nutrient Film Technique", "All of the above"],
+                    answer: "All of the above",
+                    image: null
+                },
+                {
+                    question: "What is the main reason lettuce is often grown in hydroponic systems? ",
+                    choices: ["It requires a lot of sunlight", "It has a short growth cycle", "It needs rich soil", "It is a perennial plant"],
+                    answer: "It has a short growth cycle",
+                    image: null
+                },
+                {
+                    question: "Which of the following is a common pest that affects lettuce?",
+                    choices: ["Aphids", "Spider mites", "Whiteflies", "All of the above"],
+                    answer: "All of the above",
+                    image: null
+                },
+                {
+                    question: "What is the best light duration for growing lettuce in a hydroponic system? ",
+                    choices: [" 6-8 hours", "10-12 hours", "12-16 hours", "18-24 hours"],
+                    answer: "12-16 hours",
+                    image: null
+                },
+                {
+                    question: "What is the primary reason for using a nutrient solution in hydroponics for lettuce? ",
+                    choices: ["To provide water", "To provide nutrients directly to the roots", " To keep the temperature stable", "To filter out pests"],
+                    answer: "To provide nutrients directly to the roots",
+                    image: null
+                },
+                {
+                    question: "How should lettuce be harvested in a hydroponic system? ",
+                    choices: [" Pulling the entire plant", "Digging up the roots", "Cutting the leaves", "None of the above"],
+                    answer: "Cutting the leaves",
+                    image: null
+                },
+                {
+                    question: "What is the main advantage of growing lettuce in a controlled environment?",
+                    choices: ["More sunlight", "More pests", "Higher soil quality", "Consistent growth conditions"],
+                    answer: "Consistent growth conditions",
+                    image: null
+                },
+                {
+                    question: "What is the primary purpose of using grow lights for lettuce in hydroponics?",
+                    choices: ["To support photosynthesis", " To provide nutrients", "To provide heat", "To keep pests away"],
+                    answer: "To support photosynthesis",
+                    image: null
+                },
+                {
+                    question: "Which of the following is a sign of nutrient deficiency in lettuce?",
+                    choices: ["Wilting", "Dark green leaves", " Strong growth", "Yellowing leaves"],
+                    answer:  "Yellowing leaves",
+                    image: null
+                },
+                {
+                    question: "What is the best way to prevent diseases in hydroponically grown lettuce? ",
+                    choices: ["Use more water", "Maintain proper hygiene and airflow", "ncrease nutrient levels", "Reduce light exposure"],
+                    answer: "Maintain proper hygiene and airflow ",
+                    image: null
+                },
+                {
+                    question: "What is the primary reason for using hydroponics to grow lettuce in urban areas? ",
+                    choices: ["More space required", "Higher soil quality", "Ability to grow food in limited space", "less expenses"],
+                    answer: "Ability to grow food in limited space",
+                    image: null
+                }
+                ]
+            };
+
+            const categorySection = document.getElementById('category-selection');
+            const questionSection = document.getElementById('question-section');
+            const resultSection = document.getElementById('result-section');
+            const questionImage = document.getElementById('question-image');
+            const questionText = document.getElementById('question-text');
+            const choicesContainer = document.getElementById('choices-container');
+            const resultMessage = document.getElementById('result-message');
+            const restartBtn = document.getElementById('restart-btn');
+
+            let currentQuestion = null;
+
+            // Handle category selection
+            document.querySelectorAll('button.category-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                startGame(category);
+                });
+            });
+
+            function startGame(category) {
+                currentQuestion = categories[category][Math.floor(Math.random() * categories[category].length)];
+                showQuestion(currentQuestion);
+                categorySection.style.display = 'none';
+                resultSection.style.display = 'none';
+                questionSection.style.display = 'flex';
+            }
+
+            function showQuestion(question) {
+                resultMessage.textContent = '';
+                choicesContainer.innerHTML = '';
+                questionText.textContent = question.question;
+
+                if (question.image) {
+                questionImage.src = question.image;
+                questionImage.style.display = 'block';
+                questionImage.alt = 'Question Image';
+                } else {
+                questionImage.src = '';
+                questionImage.style.display = 'none';
+                questionImage.alt = '';
+                }
+
+                question.choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.textContent = choice;
+                btn.className = 'choice-btn';
+                btn.addEventListener('click', () => selectAnswer(choice, btn));
+                choicesContainer.appendChild(btn);
+                });
+            }
+
+            function selectAnswer(choice, btnElem) {
+                const buttons = choicesContainer.querySelectorAll('button');
+                buttons.forEach(b => b.disabled = true);
+
+                if (choice === currentQuestion.answer) {
+                resultMessage.textContent = 'Correct!';
+                resultMessage.className = 'correct';
+                btnElem.style.backgroundColor = '#2e7d32'; // dark green
+                playSound(true);
+                } else {
+                resultMessage.textContent = 'Better luck next time.';
+                resultMessage.className = 'incorrect';
+                btnElem.style.backgroundColor = '#a32b2b'; // dark red
+                playSound(false);
+                // highlight correct answer
+                buttons.forEach(b => {
+                    if (b.textContent === currentQuestion.answer) {
+                    b.style.backgroundColor = '#2e7d32';
+                    }
+                });
+                }
+                // Switch to result view with effect
+                setTimeout(() => {
+                questionSection.style.display = 'none';
+                resultSection.style.display = 'block';
+                }, 1000);
+            }
+
+            restartBtn.addEventListener('click', () => {
+                resultSection.style.display = 'none';
+                categorySection.style.display = 'flex';
+            });
+
+            function playSound(correct) {
+                const soundUrl = correct ? 
+                'https://www.soundjay.com/button/sounds/button-3.mp3' : 
+                'https://www.soundjay.com/button/sounds/button-10.mp3';
+                const audio = new Audio(soundUrl);
+                audio.play();
+            }
+        </script>
+    </body>
 </html>
